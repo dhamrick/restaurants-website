@@ -1,0 +1,28 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h2>{{restaurant.name}}</h2>
+		Please edit the appropriate fields below.
+		<form action = '{{url_for('editMenuItem', restaurant_id = restaurant.id, menuItem_id = item.id)}}'
+			method = 'POST' >
+			<strong>Name:</strong>
+			<input type = 'text' name = 'newMenuItemName' placeholder = '{{item.name}}'>
+			<br>
+			<strong>Description:</strong>
+			<input type = 'text' name = 'newMenuItemDesc' placeholder = "{{item.description}}">
+			<br>
+			<strong>Price:</strong>
+			<input type = 'text' name = 'newMenuItemPrice' placeholder = "{{item.price}}">
+			<br>
+			<strong>Course:</strong>
+			<input type = 'text' name = 'newMenuItemCourse' placeholder = "{{item.course}}">
+			<br>
+			<input type = 'submit' value = 'Edit'>
+		</form>
+		<a href = "{{url_for('displayRestaurantMenu',
+			restaurant_id = restaurant.id)}}">
+			CANCEL
+		</a>
+	</body>
+</html>

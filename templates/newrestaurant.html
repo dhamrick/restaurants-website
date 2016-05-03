@@ -1,0 +1,13 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<div class = 'restaurants'>
+			<form action = "{{url_for('newRestaurant')}}" method = 'POST' >
+				<input type = 'text' name = 'newRestaurant'>
+				<input type = 'submit' value = 'Create'>
+			</form>
+			<a href = "{{url_for('displayRestaurants')}}">CANCEL</a>
+		</div>
+	</body>
+</html>

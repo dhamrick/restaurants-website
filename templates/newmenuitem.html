@@ -1,0 +1,25 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h2>{{restaurant.name}}</h2>
+		Please fill in the below information for the new menu item.
+		<form action = "{{url_for('newMenuItem', restaurant_id = restaurant.id)}}"
+			method = 'POST' >
+			<strong>Name:</strong>
+			<input type = 'text' name = 'newMenuItemName' placeholder = "Name">
+			<br>
+			<strong>Description:</strong>
+			<input type = 'text' name = 'newMenuItemDesc' placeholder = "Description">
+			<br>
+			<strong>Price:</strong>
+			<input type = 'text' name = 'newMenuItemPrice' placeholder = "Price">
+			<br>
+			<strong>Course:</strong>
+			<input type = 'text' name = 'newMenuItemCourse' placeholder = "Course">
+			<br>
+			<input type = 'submit' value = 'Add'>
+		</form>
+		<a href = "{{url_for('displayRestaurantMenu', restaurant_id = restaurant.id)}}">CANCEL</a>
+	</body>
+</html>
