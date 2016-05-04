@@ -63,14 +63,15 @@ def editRestaurant(restaurant_id):
 def deleteRestaurant(restaurant_id):
 	"""Handles GET and POST requests for deleting a restaurant
 
-	GET: Returns an HTML form for deleting the restaurant
-	POST: Deletes the restaurant from the database
+	GET: Returns an HTML form for deleting the restaurant.
+	POST: Deletes the restaurant from the database and the restaurant's menu items.
 	"""
 	# return ("This will delete restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
 		return render_template('deleterestaurant.html', restaurant = restaurant)
 	elif request.method == 'POST':
+		session.query(MenuItem).filter_by(restaurant_id = restaurant_id).delete()
 		session.delete(restaurant)
 		session.commit()
 		flash("Restaurant %s was deleted!" %restaurant.name)
