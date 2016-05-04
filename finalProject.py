@@ -61,7 +61,11 @@ def editRestaurant(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods = ['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
-	"""Returns an HTML form for deleting the restaurant"""
+	"""Handles GET and POST requests for deleting a restaurant
+
+	GET: Returns an HTML form for deleting the restaurant
+	POST: Deletes the restaurant from the database
+	"""
 	# return ("This will delete restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -86,7 +90,11 @@ def displayRestaurantMenu(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/new/', methods = ['GET', 'POST'])
 def newMenuItem(restaurant_id):
-	"""Returns an HTML form for creating a new menu item for the restaurant"""
+	"""Handles the GET and POST requests for creating a new menu item.
+
+		GET: Returns an HTML form with fields for the information
+		POST: Creates new item without verifying all data present
+	"""
 	# return ("This will create a new menu item for restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -106,7 +114,11 @@ def newMenuItem(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menuItem_id>/edit/', methods = ['GET', 'POST'])
 def editMenuItem(restaurant_id, menuItem_id):
-	"""Returns an HTML form for editing the selecting menu item"""
+	"""Handles the GET and POST requests for editing menu item
+
+		GET: Returns an HTML form for editing the menu item
+		POST: Checks for changes and commits them to database
+	"""
 	# return ("This will edit menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 
@@ -141,7 +153,11 @@ def editMenuItem(restaurant_id, menuItem_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menuItem_id>/delete/', methods = ['GET', 'POST'])
 def deleteMenuItem(restaurant_id, menuItem_id):
-	"""Returns an HTML form for deleting the selected menu item"""
+	"""Handles the GET and POST requests for deleting a menu item.
+
+		GET: Returns an HTML form for deleting the selected menu item'
+		POST: Deletes the menu item from the database
+	"""
 	# return ("This will delete menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
