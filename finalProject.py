@@ -20,6 +20,7 @@ session = DBSession()
 @app.route('/')
 @app.route('/restaurants/')
 def displayRestaurants():
+	"""Returns the list of all of the restaurants in the database"""
 	# return ("This will list all of the restaurants!")
 	# restaurants = session.query(Restaurant).filter_by(id = 10000).all()
 	restaurants = session.query(Restaurant).all()
@@ -30,6 +31,7 @@ def displayRestaurants():
 
 @app.route('/restaurant/new/', methods = ['GET', 'POST'])
 def newRestaurant():
+	"""Returns an HTML form for creating a new restaurant."""
 	# return ("This will create a new restaurant!")
 	if request.method == 'GET':
 		return render_template('newrestaurant.html')
@@ -44,6 +46,7 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods = ['GET', 'POST'])
 def editRestaurant(restaurant_id):
+	"""Returns an HTML form for editing a restaurant """
 	# return ("This will edit restaurant %s's name!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -58,6 +61,7 @@ def editRestaurant(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods = ['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
+	"""Returns an HTML form for deleting the restaurant"""
 	# return ("This will delete restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -71,6 +75,7 @@ def deleteRestaurant(restaurant_id):
 @app.route('/restaurant/<int:restaurant_id>/')
 @app.route('/restaurant/<int:restaurant_id>/menu/')
 def displayRestaurantMenu(restaurant_id):
+	"""Display's the restaurant's menu"""
 	# return ("This will list restaurant %s's menu!" %restaurant_id)
 	menuItems = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
 	# menuItems = session.query(MenuItem).filter_by(restaurant_id = 100000).all()
@@ -81,6 +86,7 @@ def displayRestaurantMenu(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/new/', methods = ['GET', 'POST'])
 def newMenuItem(restaurant_id):
+	"""Returns an HTML form for creating a new menu item for the restaurant"""
 	# return ("This will create a new menu item for restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -100,6 +106,7 @@ def newMenuItem(restaurant_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menuItem_id>/edit/', methods = ['GET', 'POST'])
 def editMenuItem(restaurant_id, menuItem_id):
+	"""Returns an HTML form for editing the selecting menu item"""
 	# return ("This will edit menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 
@@ -134,6 +141,7 @@ def editMenuItem(restaurant_id, menuItem_id):
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menuItem_id>/delete/', methods = ['GET', 'POST'])
 def deleteMenuItem(restaurant_id, menuItem_id):
+	"""Returns an HTML form for deleting the selected menu item"""
 	# return ("This will delete menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
@@ -147,17 +155,20 @@ def deleteMenuItem(restaurant_id, menuItem_id):
 
 @app.route('/retaurants/JSON/')
 def restaurantsAPI():
+	"""Returns list of restaurants in JSON to API request"""
 	# return 'This will display the restuarants JSON output!'
 	restaurants = session.query(Restaurant).all()
 	return jsonify(restaurants = [restaurant.serialize for restaurant in restaurants])
 
 @app.route ('/restautant/<int:restaurant_id>/menu/JSON/')
 def restaurantMenuAPI(restaurant_id):
+	"""Returns the restaurant's menu in JSON to API request"""
 	menuItems = session.query(MenuItem).filter_by(restaurant_id = restaurant_id).all()
 	return jsonify(menuItems = [(menuItem.name, menuItem.price) for menuItem in menuItems])
 
 @app.route ('/restautant/<int:restaurant_id>/menu/<int:menuItem_id>/JSON/')
 def restaurantMenuItemAPI(restaurant_id, menuItem_id):
+	"""Returns the restaurant menu item's info. as JSON to API request"""
 	# return "This will display the menu item's JSON!"
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 	return jsonify(menuItem.serialize)
