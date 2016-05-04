@@ -39,7 +39,7 @@ h2 {
 	text-align: center;
 }
 
-.optionLinks {
+.editDelLinks {
 	margin-left: 35%;
 	margin-right: 35%;
 	display: flex;
@@ -47,7 +47,7 @@ h2 {
 	justify-content: space-around;
 }
 
-.restaurant a {
+.restaurant, .menuItem a {
 	text-decoration: none;
 }
 
