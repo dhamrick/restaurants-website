@@ -47,7 +47,18 @@ h2 {
 	justify-content: space-around;
 }
 
-.restaurant, .menuItem a {
+.menuItem {
+	width: 80%;
+}
+
+.editField {
+	width: 40%;
+}
+
+.submitButton {
+	width: 25%;
+
+a {
 	text-decoration: none;
 }
 

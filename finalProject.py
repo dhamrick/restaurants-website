@@ -4,10 +4,14 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 from flask import redirect
+from flask import session as login_session
 from flask import url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
+
+import random
+import string
 
 app = Flask(__name__)
 
@@ -18,6 +22,14 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 @app.route('/')
+@app.route('/login/')
+def showLogin():
+	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+	                for x in xrange(32))
+	login_session['state'] = state
+	return render_template('login.html')
+	# "The current session state is %s" %login_session['state']
+
 @app.route('/restaurants/')
 def displayRestaurants():
 	"""Returns the list of all of the restaurants in the database"""

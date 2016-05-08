@@ -1,0 +1,32 @@
+<html>
+<head>
+	<!--Load prerequisites for Google sign-in-->
+	<script src = "//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+	</script>
+
+	<script src = "//apis.google.com/js/platform.js?onload=start">
+	</script>
+	<!--End prerequisites for Google sign-in-->
+</head>
+
+<body>
+
+	<!--Google Plus sign-in button-->
+	<div id = "signInButton">
+	<span class = "g-signin"
+		data-scope = "openid email"
+		data-clientid = "355986600699-91tgd4nmi38h0krn8a7ql2nrdjdlq3so.apps.googleusercontent.com"
+		data-redirecturi = "postmessage"
+		data-accesstype = "offline"
+		data-cookiepolicy = "single_host_origin"
+		data-callback = "signInCallback"
+		data-approvalprompt = "force">
+	</span>
+	</div>
+	<!--End Google Plus sign-in button-->
+
+
+
+</body>
+
+</html>
