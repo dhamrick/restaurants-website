@@ -49,6 +49,7 @@ h2 {
 
 .menuItem {
 	width: 80%;
+	align-self: center;
 }
 
 .editField {

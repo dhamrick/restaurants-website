@@ -15,7 +15,9 @@ import string
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///restaurantmenu.db')
+app.config.from_pyfile('config.py')
+
+engine = create_engine(app.config['DATABASE'])
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -27,7 +29,7 @@ def showLogin():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
 	                for x in xrange(32))
 	login_session['state'] = state
-	return render_template('login.html')
+	return render_template('login.html', clientID = app.config['CLIENT_ID'])
 	# "The current session state is %s" %login_session['state']
 
 @app.route('/restaurants/')
@@ -203,6 +205,6 @@ def restaurantMenuItemAPI(restaurant_id, menuItem_id):
 	return jsonify(menuItem.serialize)
 
 if __name__ == '__main__':
-	app.secret_key = 'super_secret_key'
-	app.debug = True
+	app.secret_key = app.config['SECRET_KEY']
+	app.debug = app.config['DEBUG']
 	app.run(host = '0.0.0.0', port = 5000)
