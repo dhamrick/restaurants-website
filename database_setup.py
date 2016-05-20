@@ -22,8 +22,8 @@ class Restaurant(Base):
 
 	name = Column(String(80), nullable = False)
 	id = Column(Integer, primary_key = True)
-	user_id = Column(Integer, ForeignKey = 'users.id')
-	admin = relationship(User, backref = Restaurant)
+	user_id = Column(Integer, ForeignKey('users.id'))
+	admin = relationship(User, backref = 'restaurants')
 
 	@property
 	def serialize(self):
@@ -34,17 +34,17 @@ class Restaurant(Base):
 
 
 class MenuItem(Base):
-	__tablename__ = 'menu_item'
+	__tablename__ = 'menu_items'
 
 	name = Column(String(80), nullable = False)
 	id = Column(Integer, primary_key = True)
 	course = Column(String(10))
 	description = Column(String(250))
 	price = Column(String(7))
-	restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
-	restaurant = relationship(Restaurant, backref = MenuItem)
-	user_id = Column(Integer, ForeignKey = 'users.id')
-	admin = relationship(User, backref = MenuItem)
+	restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
+	restaurant = relationship(Restaurant, backref = 'menu_items')
+	user_id = Column(Integer, ForeignKey('users.id'))
+	admin = relationship(User, backref = 'menu_items')
 
 	@property
 	def serialize(self):
