@@ -178,6 +178,9 @@ def displayRestaurants():
 def newRestaurant():
 	"""Returns an HTML form for creating a new restaurant."""
 	# return ("This will create a new restaurant!")
+	if 'username' not in login_session:
+		flash('You need to login to create a new restaurant!')
+		return redirect('/login')
 	if request.method == 'GET':
 		return render_template('newrestaurant.html')
 	elif request.method == 'POST':
@@ -191,6 +194,10 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods = ['GET', 'POST'])
 def editRestaurant(restaurant_id):
+	"""Edit the name of a restaurant"""
+	if 'username' not in login_session:
+		flash('You need to login to edit a restaurant!')
+		return redirect('/login')
 	"""Returns an HTML form for editing a restaurant """
 	# return ("This will edit restaurant %s's name!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
@@ -211,6 +218,9 @@ def deleteRestaurant(restaurant_id):
 	GET: Returns an HTML form for deleting the restaurant.
 	POST: Deletes the restaurant from the database and the restaurant's menu items.
 	"""
+	if 'username' not in login_session:
+		flash('You need to login to delete a restaurant!')
+		return redirect('/login')
 	# return ("This will delete restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -241,6 +251,9 @@ def newMenuItem(restaurant_id):
 		GET: Returns an HTML form with fields for the information
 		POST: Creates new item without verifying all data present
 	"""
+	if 'username' not in login_session:
+		flash('You need to login to create a new menu item!')
+		return redirect('/login')
 	# return ("This will create a new menu item for restaurant %s!" %restaurant_id)
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
 	if request.method == 'GET':
@@ -265,6 +278,9 @@ def editMenuItem(restaurant_id, menuItem_id):
 		GET: Returns an HTML form for editing the menu item
 		POST: Checks for changes and commits them to database
 	"""
+	if 'username' not in login_session:
+		flash('You need to login to edit menu item!')
+		return redirect('/login')
 	# return ("This will edit menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 
@@ -304,6 +320,9 @@ def deleteMenuItem(restaurant_id, menuItem_id):
 		GET: Returns an HTML form for deleting the selected menu item'
 		POST: Deletes the menu item from the database
 	"""
+	if 'username' not in login_session:
+		flash('You need to login to delete a menu item!')
+		return redirect('/login')
 	# return ("This will delete menu item %s from restaurant %s!" %(menuItem_id, restaurant_id))
 	menuItem = session.query(MenuItem).filter_by(id = menuItem_id).one()
 	restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
