@@ -35,9 +35,11 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+
+
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
-	print "\n\n\n GCONNECT STARTED!"
+
 	# Validate state token
 	if request.args.get('state') != login_session['state']:
 	    response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -111,6 +113,12 @@ def gconnect():
 	login_session['username'] = data['name']
 	login_session['picture'] = data['picture']
 	login_session['email'] = data['email']
+
+	user_id = getUserID(login_session['email'])
+	if not userID:
+		userID = createUser(login_sessoin)
+	login_session['user_id'] = user_id
+
 
 	output = ''
 	output += '<h1>Welcome, '
@@ -188,7 +196,8 @@ def newRestaurant():
 		return render_template('newrestaurant.html')
 	elif request.method == 'POST':
 		newRestaurant = Restaurant(
-		                           name = request.form['newRestaurant']
+		                           name = request.form['newRestaurant'],
+		                           user_id = login_session['user_id']
 		                           )
 		session.add(newRestaurant)
 		session.commit()
@@ -267,7 +276,8 @@ def newMenuItem(restaurant_id):
 		                       price = request.form['newMenuItemPrice'],
 		                       description = request.form['newMenuItemDesc'],
 		                       course = request.form['newMenuItemCourse'],
-		                       restaurant_id = restaurant_id
+		                       restaurant_id = restaurant_id,
+		                       user_id = restaurant.user_id
 		                       )
 		session.add(newMenuItem)
 		session.commit()
@@ -336,6 +346,26 @@ def deleteMenuItem(restaurant_id, menuItem_id):
 		session.commit()
 		flash("Item successfully deleted!")
 		return redirect(url_for('displayRestaurantMenu', restaurant_id = restaurant.id))
+
+def createUser(login_sessoin):
+	newUser = User(name = login_session['username'],
+	               email = login_session['email'],
+	               picture = login_session['picture'])
+	session.add(newUser)
+	session.commit()
+	user = session.query(User).filter_by(email = login_session['email']).one()
+	return user.id
+
+def getUserInfo(user_id):
+	user = session.query(User).filter_by(id = user_id).one()
+	return user
+
+def getUserID(email):
+	try:
+		user = session.query(User).filter_by(email = email).one()
+		return user.id
+	except:
+		return None
 
 # BEGIN API BLOCK
 @app.route('/retaurants/JSON/')

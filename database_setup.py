@@ -9,21 +9,21 @@ Base = declarative_base()
 # End initial setup
 
 class User(Base):
-	__tablename__= 'users'
+	__tablename__= 'user'
 
 	id = Column(Integer, primary_key = True)
-	email = Column(String(150), primary_key = True)
+	email = Column(String(150), nullable = False)
 	name = Column(String(80), nullable = False)
-	picture = Column(String(250), nullable = True)
+	picture = Column(String(250))
 
 
 class Restaurant(Base):
-	__tablename__ = 'restaurants'
+	__tablename__ = 'restaurant'
 
 	name = Column(String(80), nullable = False)
 	id = Column(Integer, primary_key = True)
-	user_id = Column(Integer, ForeignKey('users.id'))
-	admin = relationship(User, backref = 'restaurants')
+	user_id = Column(Integer, ForeignKey('user.id'))
+	user = relationship(User)
 
 	@property
 	def serialize(self):
@@ -40,11 +40,11 @@ class MenuItem(Base):
 	id = Column(Integer, primary_key = True)
 	course = Column(String(10))
 	description = Column(String(250))
-	price = Column(String(7))
-	restaurant_id = Column(Integer, ForeignKey('restaurants.id'))
-	restaurant = relationship(Restaurant, backref = 'menu_items')
-	user_id = Column(Integer, ForeignKey('users.id'))
-	admin = relationship(User, backref = 'menu_items')
+	price = Column(String(8))
+	restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
+	restaurant = relationship(Restaurant)
+	user_id = Column(Integer, ForeignKey('user.id'))
+	user = relationship(User)
 
 	@property
 	def serialize(self):
@@ -58,6 +58,6 @@ class MenuItem(Base):
 
 #EOF
 # engine = create_engine('sqlite:///restaurantmenuwithusers.db')
-engine = create_engine('sqlite:///restaurantmenu.db')
+engine = create_engine('sqlite:///restaurantmenuwithusers.db')
 
 Base.metadata.create_all(engine)
