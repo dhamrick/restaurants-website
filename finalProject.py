@@ -28,7 +28,7 @@ CLIENT_ID = json.loads(open('client_secrets.json','r').read())['web']['client_id
 APP_NAME = app.config['APPLICATION_NAME']
 
 
-engine = create_engine(app.config['DATABASE'])
+engine = create_engine(app.config['DATABASE_USERS'])
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -115,8 +115,8 @@ def gconnect():
 	login_session['email'] = data['email']
 
 	user_id = getUserID(login_session['email'])
-	if not userID:
-		userID = createUser(login_sessoin)
+	if not user_id:
+		user_id = createUser(login_session)
 	login_session['user_id'] = user_id
 
 
